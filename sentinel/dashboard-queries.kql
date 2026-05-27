@@ -1,0 +1,22 @@
+// ============================================================
+//  IAM Governance Dashboard — KQL Queries
+//  Workbook: IAM Governance Dashboard (law-iam-pipeline)
+// ============================================================
+
+// --- Tile 1: Top 10 Audit Operations (Bar Chart) ---
+AuditLogs
+| summarize count() by OperationName
+| top 10 by count_
+| render barchart
+
+// --- Tile 2: Sign-in Failures Over Time (Time Chart) ---
+SigninLogs
+| where ResultType != 0
+| summarize Failures = count() by bin(TimeGenerated, 1h)
+| render timechart
+
+// --- Tile 3: Users Added/Removed from Groups ---
+AuditLogs
+| where OperationName has "member"
+| summarize count() by OperationName, bin(TimeGenerated, 1d)
+| render barchart

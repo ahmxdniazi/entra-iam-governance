@@ -1,0 +1,12 @@
+// ============================================================
+//  Sentinel Analytics Rule: Admin Role Assigned Outside Hours
+//  Severity : High
+//  Frequency: Every 1 hour | Lookback: 1 hour
+//  Alert if : Results > 0
+// ============================================================
+
+AuditLogs
+| where OperationName has "Add member to role"
+| extend Hour = datetime_part("hour", TimeGenerated)
+| where Hour < 8 or Hour > 18
+| project TimeGenerated, InitiatedBy, TargetResources, OperationName

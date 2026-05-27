@@ -1,0 +1,14 @@
+# Secrets — never commit these
+*.secret
+credentials.txt
+secrets.json
+
+# Keep scripts but remind user to remove secrets
+# scripts/*.ps1 — check for YOUR_TENANT_ID before pushing!
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

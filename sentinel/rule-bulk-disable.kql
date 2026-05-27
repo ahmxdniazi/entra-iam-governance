@@ -1,0 +1,13 @@
+// ============================================================
+//  Sentinel Analytics Rule: Bulk Account Disablement Detected
+//  Severity : Medium
+//  Frequency: Every 1 hour | Lookback: 1 hour
+//  Alert if : Results > 0
+// ============================================================
+
+AuditLogs
+| where OperationName == "Disable account"
+| summarize DisableCount = count()
+    by InitiatedBy = tostring(InitiatedBy.app.displayName),
+       bin(TimeGenerated, 10m)
+| where DisableCount > 3
